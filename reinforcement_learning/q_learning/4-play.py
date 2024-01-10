@@ -3,7 +3,6 @@
 
 import numpy as np
 
-
 def play(env, Q, max_steps=100):
     """
     Plays the Frozen Lake game using a trained model.
@@ -17,32 +16,31 @@ def play(env, Q, max_steps=100):
     Returns:
     total_rewards: The total reward for the game.
     """
-
-    # Reset the environment to the starting state
-    state = env.reset()
+    play_count = 5
     total_rewards = 0
 
-    for step in range(max_steps):
-        # Choose the action with the highest expected reward
-        action = np.argmax(Q[state, :])
+    for episode in range(play_count):
+        # Reset the environment to the starting state
+        state = env.reset()
 
-        # Take the chosen action and observe the new state and reward
-        new_state, reward, done, _ = env.step(action)[:4]
+        for step in range(max_steps):
+            # Choose the action with the highest expected reward
+            action = np.argmax(Q[state, :])
 
-        # Update the total reward
-        total_rewards += reward
+            # Take the chosen action and observe the new state and reward
+            new_state, reward, done, _ = env.step(action)[:4]
 
-        # Render the environment
-        env.render()
+            # Update the total reward
+            total_rewards += reward
 
-        # Update the state
-        state = new_state
+            # Render the environment
+            env.render()
 
-        # Update the total reward
-        total_rewards += reward
+            # Update the state
+            state = new_state
 
-        # End the game if the done flag is True
-        if done:
-            break
+            # End the game if the done flag is True
+            if done:
+                break
 
     return total_rewards
