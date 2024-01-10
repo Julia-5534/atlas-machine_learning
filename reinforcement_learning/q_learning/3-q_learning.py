@@ -10,7 +10,30 @@ def train(env, Q,
           alpha=0.1, gamma=0.99,
           epsilon=1, min_epsilon=0.1,
           epsilon_decay=0.05):
-    """Trains a Model on Frozen Lake"""
+    """
+    Trains a model on the Frozen Lake environment using Q-learning.
+
+    Parameters:
+    env: The Frozen Lake environment.
+    Q: The Q-table.
+    episodes (int, optional): The number of episodes for
+    training. Default is 5000.
+    max_steps (int, optional): The maximum number of steps per
+    episode. Default is 100.
+    alpha (float, optional): The learning rate. Default is 0.1.
+    gamma (float, optional): The discount factor. Default is 0.99.
+    epsilon (float, optional): The initial exploration rate.
+    Default is 1.
+    min_epsilon (float, optional): The minimum exploration
+    rate. Default is 0.1.
+    epsilon_decay (float, optional): The decay rate for
+    epsilon. Default is 0.05.
+
+    Returns:
+    Q: The updated Q-table after training.
+    total_rewards: A list of the total rewards per episode.
+    """
+
     total_rewards = []
 
     for episode in range(episodes):
