@@ -23,7 +23,7 @@ def get_launches_per_rocket():
     rocket_names = {}
     for rocket_id in launches_per_rocket.keys():
         response = requests.get(
-            format'https://api.spacexdata.com/v3/rockets/{rocket_id}')
+            'https://api.spacexdata.com/v3/rockets/{}'.format(rocket_id))
         rocket_names[rocket_id] = response.json()['rocket_name']
 
     # Create a list of tuples (rocket name, number of launches)
@@ -40,4 +40,4 @@ def get_launches_per_rocket():
 
 if __name__ == '__main__':
     for rocket_name, num_launches in get_launches_per_rocket():
-        print(format"{rocket_name}: {num_launches}")
+        print("{}: {}".format(rocket_name, num_launches))
