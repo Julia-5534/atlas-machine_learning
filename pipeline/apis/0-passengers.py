@@ -14,7 +14,8 @@ def availableShips(passengerCount):
         data = response.json()
         for ship in data['results']:
             try:
-                if int(ship['passengers']) >= passengerCount:
+                # Remove commas before converting to int
+                if int(ship['passengers'].replace(',', '')) >= passengerCount:
                     ships.append(ship['name'])
             except ValueError:
                 pass
