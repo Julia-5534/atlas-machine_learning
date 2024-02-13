@@ -27,6 +27,7 @@ def print_sorted_counts(count_dict):
     for rocket, count in sorted_counts:
         print("{}: {}".format(rocket, count))
 
+
 if __name__ == '__main__':
     launches = get_launches()
     count_dict = count_launches(launches)
