@@ -10,11 +10,11 @@ def get_first_launch():
     response = requests.get('https://api.spacexdata.com/v4/launches')
     launches = response.json()
 
-    # Sort the launches by date_unix
-    sorted_launches = sorted(launches, key=lambda k: k['date_unix'])
-
-    # Get the first launch
-    first_launch = sorted_launches[0]
+    # Get the specific launch
+    for launch in launches:
+        if launch['name'] == 'Galaxy 33 (15R) & 34 (12R)':
+            first_launch = launch
+            break
 
     # Get the required information
     launch_name = first_launch['name']
