@@ -6,6 +6,7 @@ from collections import defaultdict
 
 
 def get_launches():
+    """Gets The Launches"""
     response = requests.get('https://api.spacexdata.com/v3/launches')
     data = response.json()
     return data
