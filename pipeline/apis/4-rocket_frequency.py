@@ -4,36 +4,43 @@
 import requests
 from collections import Counter
 
-launch_url = 'https://api.spacexdata.com/v3/launches'
-rocket_url = 'https://api.spacexdata.com/v3/rockets'
 
+def fetch_and_display_launches():
+    """Fetch and display sorted launches"""
+    SPACE_LAUNCH_API = 'https://api.spacexdata.com/v5/launches'
+    SPACE_ROCKET_API = 'https://api.spacexdata.com/v4/rockets'
 
-def get_launches_per_rocket():
-    """Displays the number of launches per rocket"""
-    # Get the launch and rocket data
-    launches = requests.get(launch_url).json()
-    rockets = requests.get(rocket_url).json()
+    rocket_catalogue = {}
 
-    # Create a dictionary to store the rocket names
-    rocket_names = {
-        rocket['rocket_id']: rocket['rocket_name'] for rocket in rockets}
+    # Retrieve all launched rockets from SPACE_LAUNCH_API
+    space_launch_resp = requests.get(SPACE_LAUNCH_API)
+    space_launch_data = space_launch_resp.json()
+    space_rocket_ids = [rocket['rocket'] for rocket in space_launch_data]
 
-    # Get the rocket id for each launch and count the number of launches
-    launched_rockets = [
-        launch['rocket']['rocket_id'] for launch in launches]
-    launches_per_rocket = Counter(launched_rockets)
+    # Retrieve rocket_ids, rocket_names from SPACE_ROCKET_API
+    space_rocket_resp = requests.get(SPACE_ROCKET_API)
+    space_rocket_data = space_rocket_resp.json()
+    space_rocket_identifiers = [rocket['id'] for rocket in space_rocket_data]
+    space_rocket_monikers = [rocket['name'] for rocket in space_rocket_data]
 
-    # Replace the rocket ids with the rocket names and sort the result
-    rockets_and_launches = {
-        rocket_names[
-            rocket_id]: count for rocket_id,
-        count in launches_per_rocket.items()}
-    sorted_rockets_and_launches = sorted(
-        rockets_and_launches.items(), key=lambda x: (-x[1], x[0]))
+    # Construct a dictionary of rocket_ids and rocket_names
+    rocket_catalogue = dict(zip(
+        space_rocket_identifiers,
+        space_rocket_monikers))
 
-    return sorted_rockets_and_launches
+    # Count and sort the launched rockets
+    launch_tally = dict(sorted(Counter(space_rocket_ids).items(),
+                               key=lambda x: x[1], reverse=True))
+
+    # Replace keys in launch_tally with the appropriate rocket names
+    final_tally = {rocket_catalogue[
+        key]: value for key, value in launch_tally.items()}
+
+    sorted_tally = sorted(final_tally.items(), key=lambda x: (-x[1], x[0]))
+
+    for i in range(len(sorted_tally)):
+        print(sorted_tally[i][0] + ': ' + str(sorted_tally[i][1]))
 
 
 if __name__ == '__main__':
-    for rocket_name, num_launches in get_launches_per_rocket():
-        print("{}: {}".format(rocket_name, num_launches))
+    fetch_and_display_launches()
