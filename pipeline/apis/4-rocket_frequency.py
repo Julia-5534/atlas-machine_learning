@@ -6,6 +6,7 @@ from collections import defaultdict
 
 
 def get_launches_per_rocket():
+    """Displays the number of launches per rocket"""
     response = requests.get('https://api.spacexdata.com/v3/launches')
     launches = response.json()
 
