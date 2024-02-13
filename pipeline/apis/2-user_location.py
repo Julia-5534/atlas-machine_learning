@@ -32,6 +32,7 @@ def user_location(url):
         location = response.json().get('location')
         print(location)
 
+
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         user_location(sys.argv[1])
