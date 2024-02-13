@@ -27,7 +27,7 @@ def user_location(url):
         reset_time = datetime.fromtimestamp(int(reset_timestamp))
         now = datetime.now()
         difference = reset_time - now
-        print(f"Reset in {difference.seconds // 60} min")
+        print("Reset in {} min".format(difference.seconds // 60))
     else:
         location = response.json().get('location')
         print(location)
