@@ -7,7 +7,19 @@ from_file = __import__('2-from_file').from_file
 
 df = from_file('coinbaseUSD_1-min_data_2014-12-01_to_2019-01-09.csv', ',')
 
-# YOUR CODE HERE
+# Remove the column Weighted_Price
+df = df.drop(columns=['Weighted_Price'])
+
+# Fill missing values in Close with the previous row value
+df['Close'] = df['Close'].fillna(method='ffill')
+
+# Fill missing values in High, Low, Open with the same row’s Close value
+for column in ['High', 'Low', 'Open']:
+    df[column] = df[column].fillna(df['Close'])
+
+# Fill missing values in Volume_(BTC) and Volume_(Currency) with 0
+for column in ['Volume_(BTC)', 'Volume_(Currency)']:
+    df[column] = df[column].fillna(0)
 
 print(df.head())
 print(df.tail())
