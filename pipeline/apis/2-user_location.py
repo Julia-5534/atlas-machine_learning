@@ -6,14 +6,22 @@ import sys
 from datetime import datetime, timedelta
 
 
-def get_location(url):
+def user_location(url):
+    """
+    Prints the location of a GitHub user.
+
+    Args:
+        url (str): The GitHub API URL for the user.
+
+    If the user doesn't exist, prints "Not found".
+    If the status code is 403, prints "Reset in X min" where X is the
+    number of minutes from now and the value of 'X-Ratelimit-Reset'.
+    Otherwise, prints the user's location.
+    """
     response = requests.get(url)
-    if response.status_code == 200:
-        json = response.json()
-        if json['location']:
-            print(json['location'])
-        else:
-            print("Not found")
+
+    if response.status_code == 404:
+        print("Not found")
     elif response.status_code == 403:
         reset_timestamp = response.headers.get('X-Ratelimit-Reset')
         reset_time = datetime.fromtimestamp(int(reset_timestamp))
@@ -21,8 +29,9 @@ def get_location(url):
         difference = reset_time - now
         print(f"Reset in {difference.seconds // 60} min")
     else:
-        print("Not found")
-
+        location = response.json().get('location')
+        print(location)
 
 if __name__ == '__main__':
-    get_location(sys.argv[1])
+    if len(sys.argv) > 1:
+        user_location(sys.argv[1])
