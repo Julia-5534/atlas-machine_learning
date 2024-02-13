@@ -12,7 +12,7 @@ def get_launches():
 
 
 def count_launches(launches):
-    """Counts Launches"""
+    """Counts The Number Of Launches"""
     count_dict = defaultdict(int)
     for launch in launches:
         rocket_name = launch['rocket']['rocket_name']
