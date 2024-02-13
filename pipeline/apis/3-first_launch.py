@@ -3,6 +3,7 @@
 
 import requests
 import datetime
+import pytz
 
 
 def get_first_launch():
@@ -23,7 +24,9 @@ def get_first_launch():
     launchpad_id = first_launch['launchpad']
 
     # Convert the date from unix to local time
-    date_local = datetime.datetime.fromtimestamp(date_unix)
+    date_local = datetime.datetime.fromtimestamp(
+        date_unix,
+        tz=pytz.timezone('US/Eastern'))
 
     # Get the rocket name
     rocket_response = requests.get(
@@ -39,7 +42,7 @@ def get_first_launch():
     # Format the output
     output = "{} ({}) {} - {} ({})".format(
         launch_name,
-        date_local,
+        date_local.isoformat(),
         rocket_name,
         launchpad_name,
         launchpad_locality)
