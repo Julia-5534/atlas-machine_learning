@@ -3,7 +3,6 @@
 
 import requests
 import datetime
-import pytz
 
 
 def get_first_launch():
@@ -26,7 +25,7 @@ def get_first_launch():
     # Convert the date from unix to local time
     date_local = datetime.datetime.fromtimestamp(
         date_unix,
-        tz=pytz.timezone('US/Eastern'))
+        tz=datetime.timezone(datetime.timedelta(hours=-4)))
 
     # Get the rocket name
     rocket_response = requests.get(
