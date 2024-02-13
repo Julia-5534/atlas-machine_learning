@@ -5,6 +5,7 @@ import requests
 
 
 def availableShips(passengerCount):
+    """Returns the list of ships that can hold a given number of passengers"""
     url = "https://swapi-api.hbtn.io/api/starships/"
     ships = []
 
