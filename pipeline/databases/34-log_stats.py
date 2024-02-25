@@ -3,6 +3,7 @@
 
 from pymongo import MongoClient
 
+
 def log_stats():
     """Provides some stats about Nginx logs stored in MongoDB"""
 
