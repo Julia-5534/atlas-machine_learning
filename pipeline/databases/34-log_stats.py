@@ -21,8 +21,10 @@ def log_stats():
         print(f"\tmethod {method}: {count}")
 
     # Check status
-    check_status = logs_collection.count_documents({"method": "GET", "path": "/status"})
+    check_status = logs_collection.count_documents(
+        {"method": "GET", "path": "/status"})
     print(f"{check_status} status check")
+
 
 if __name__ == "__main__":
     log_stats()
