@@ -1,0 +1,2 @@
+// Shows all Mongo Databases
+show databases
